@@ -1,69 +1,60 @@
-# React + TypeScript + Vite
+# To-Do List - Desafio de Estágio
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Descrição do Projeto
 
-Currently, two official plugins are available:
+Aplicação web para gerenciamento de tarefas, desenvolvida como parte de um desafio de estágio de estágio proposto pelo IFPR em parceria com a Nextage. O objetivo é permitir ao usuário criar, visualizar, editar, marcar como concluídas e excluir tarefas, além de oferecer autenticação e recuperação de senha.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Funcionalidades
 
-## Expanding the ESLint configuration
+- [ ] Criação de Tarefas
+- [ ] Visualização de Tarefas
+- [ ] Edição de Tarefas
+- [ ] Marcação de Conclusão
+- [ ] Exclusão de Tarefas
+- [x] Autenticação de Usuário (Tela de Login)
+- [x] Recuperação de Senha (Modal)
+- [ ] Filtros e Ordenação
+- [ ] Outras funcionalidades (descrever)
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Tecnologias Utilizadas
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+- **Frontend:** React, TypeScript, TailwindCSS, Vite
+- **Backend:** (a implementar)
+- **Banco de Dados:** (a implementar)
+- **Outras:** SVG Icons, CSS Modules
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
+## Como Configurar e Executar o Projeto
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+### Pré-requisitos
+
+- Node.js >= 18.x
+- npm >= 9.x
+
+### Passos
+
+```bash
+# 1. Clone o repositório
+git clone https://github.com/seu-usuario/to-do-list.git
+cd to-do-list
+
+# 2. Instale as dependências do frontend
+cd src
+npm install
+
+# 3. Inicie o frontend
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+> O backend e o banco de dados ainda não foram implementados. O frontend pode ser testado normalmente.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## Decisões de Design e Arquitetura
 
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+- **Frontend em React + Vite:** Escolhido pela velocidade de desenvolvimento e facilidade de configuração.
+- **TailwindCSS:** Utilizado para estilização rápida e responsiva.
+- **Componentização:** Telas e modais são componentes independentes para facilitar manutenção e reuso.
+- **Persistência:** Ainda não implementada; será feita no backend futuramente.
+- **Desafios:** Implementação do modal de recuperação de senha e responsividade das telas.
+
+## Considerações Finais
+
+Este projeto está em desenvolvimento e novas funcionalidades serão adicionadas em breve. Sinta-se à vontade para contribuir ou sugerir melhorias.
