@@ -1,8 +1,12 @@
 import { useState } from "react";
 import Modal from "./modal";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
     const [open, setOpen] = useState(false);
+    const navigate = useNavigate();
+    const buttonDecoration = "w-full px-4 py-2 bg-[#100872] text-white rounded hover:bg-[#4c4ef4] transition duration-200"
+
     return (
         <div className="flex flex-col lg:flex-row items-center justify-center min-h-screen sm:flex-col " >
             <div className="flex flex-col items-center justify-center w-1/2 h-1/2 p-8">
@@ -14,7 +18,11 @@ const Login = () => {
                     <img className="w-6 h-6" src="https://www.svgrepo.com/show/475656/google-color.svg" loading="lazy" alt="google logo" />
                     Continue com o Google
                 </button>
-
+                <div className="flex items-center w-full max-w-sm my-4">
+                    <hr className="flex-grow border-t border-neutral-400" />
+                    <span className="mx-4 text-neutral-500 font-medium">ou</span>
+                    <hr className="flex-grow border-t border-neutral-400" />
+                </div>
                 <form className="flex flex-col w-full max-w-sm">
                     <input
                         type="email"
@@ -24,28 +32,30 @@ const Login = () => {
                     />
                     <input
                         type="password"
-                        className="focus:outline-none mb-4 p-2 border-b-2 border-neutral-500 text-neutral-700"
+                        className="focus:outline-none  p-2 border-b-2 border-neutral-500 text-neutral-700"
                         placeholder="Senha"
                         about="Password input field for user login"
                     />
+                    <a href="#" className="mb-6 mt-2 text-sm text-blue-500 hover:underline" onClick={() => setOpen(true)}>
+                        Esqueci minha senha</a>
+                    <Modal open={open} onClose={() => setOpen(false)} />
                     <div className="flex flex-col lg:flex-row w-full h-full items-center justify-around lg:gap-10 gap-2">
                         <button
                             type="submit"
-                            className="w-full px-4 py-2 bg-neutral-800 text-white rounded hover:bg-neutral-600 transition duration-200"
+                            className={buttonDecoration}
                         >
                             Login
                         </button>
                         <button
-                            className="w-full px-4 py-2 bg-neutral-800 text-white rounded hover:bg-neutral-600 transition duration-200"
+                            className={buttonDecoration}
+                            onClick={() => navigate("/register")}
+                            type="button"
                         >
                             Cadastre-se
                         </button>
                     </div>
                 </form>
                 <line />
-                <a href="#" className="mt-4 text-sm text-blue-500 hover:underline" onClick={() => setOpen(true)}>
-                    Esqueci minha senha</a>
-                <Modal open={open} onClose={() => setOpen(false)} />
             </div>
         </div>
     );
