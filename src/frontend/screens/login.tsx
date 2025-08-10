@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Modal from "./modal";
 import { useNavigate } from "react-router-dom";
+import { GoogleLogin, useGoogleLogin } from "@react-oauth/google";
 
 const Login = () => {
     const [open, setOpen] = useState(false);
@@ -14,10 +15,12 @@ const Login = () => {
             </div>
             <div className="flex flex-col items-center justify-center w-4/5 h-4/5 lg:w-1/2 lg:h-1/2  p-8 bg-neutral-200 rounded-lg shadow-lg">
                 <h1 className="p-6 text-neutral-700 text-6xl">Bem Vindo!</h1>
-                <button className="flex flex-row gap-5 mb-4 px-4 py-2 bg-neutral-900 text-white rounded-2xl hover:bg-blue-700 transition duration-200 " type="button">
-                    <img className="w-6 h-6" src="https://www.svgrepo.com/show/475656/google-color.svg" loading="lazy" alt="google logo" />
-                    Continue com o Google
-                </button>
+                <GoogleLogin shape="circle" onSuccess={(credentialResponse) => {
+                    console.log("Google Login Success:", credentialResponse);
+                    // Handle successful login (e.g., navigate, save user info, etc.)
+                }} onError={() => {
+                    console.error("Google Login Error");
+                }} />
                 <div className="flex items-center w-full max-w-sm my-4">
                     <hr className="flex-grow border-t border-neutral-400" />
                     <span className="mx-4 text-neutral-500 font-medium">ou</span>
