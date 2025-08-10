@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Modal from "./modal";
 import { useNavigate } from "react-router-dom";
-import { GoogleLogin, useGoogleLogin } from "@react-oauth/google";
+import { GoogleLogin } from "@react-oauth/google";
 
 const Login = () => {
     const [open, setOpen] = useState(false);
@@ -9,13 +9,14 @@ const Login = () => {
     const buttonDecoration = "w-full px-4 py-2 bg-[#100872] text-white rounded hover:bg-[#4c4ef4] transition duration-200"
 
     return (
-        <div className="flex flex-col lg:flex-row items-center justify-center min-h-screen sm:flex-col " >
+        <div className="flex flex-col lg:flex-row lg:mr-52 items-center justify-center min-h-screen sm:flex-col " >
             <div className="flex flex-col items-center justify-center w-1/2 h-1/2 p-8">
                 <img src="./src/assets/login-image.png" alt="Login Image" className="min-w-60 lg:w-4/5 " />
             </div>
             <div className="flex flex-col items-center justify-center w-4/5 h-4/5 lg:w-1/2 lg:h-1/2  p-8 bg-neutral-200 rounded-lg shadow-lg">
                 <h1 className="p-6 text-neutral-700 text-6xl">Bem Vindo!</h1>
                 <GoogleLogin shape="circle" onSuccess={(credentialResponse) => {
+                    
                     console.log("Google Login Success:", credentialResponse);
                     // Handle successful login (e.g., navigate, save user info, etc.)
                 }} onError={() => {

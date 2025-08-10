@@ -23,5 +23,5 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true
   },
-  "include": ["src"]
+  "include": ["src", "server/src/email/email.controller.ts", "server/src/email/email.controller.spec.ts", "server/src/email"]
 }

@@ -7,10 +7,11 @@ const Register = () => {
     const [open, setOpen] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+    const [verificationCode, setVerificationCode] = useState<string | null>(null);
     const inputDecoration = "focus:outline-none mb-4 p-2 border-b-2 border-neutral-500 text-neutral-700 w-full";
     const navigate = useNavigate();
 
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         const form = e.currentTarget;
         const name = (form.querySelector('input[placeholder="Nome"]') as HTMLInputElement)?.value.trim();
@@ -29,12 +30,32 @@ const Register = () => {
             return;
         }
 
-        setOpen(true);
-        console.log("Form submitted with email:", email);
+        try {
+            const response = await fetch("http://localhost:3000/email/send", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    recipients: [email],
+                    subject: "Código de Verificação",
+                }),
+            });
+            if (!response.ok) {
+                throw new Error("Erro ao enviar email.");
+            }
+            const data = await response.json();
+            setVerificationCode(data.code); // Recebe o código do backend
+            setOpen(true);
+            console.log("Email enviado com sucesso:", data);
+        } catch (error) {
+            console.error("Erro:", error);
+            alert("Falha ao enviar email. Tente novamente.");
+        }
     };
 
     return (
-        <div className="flex flex-col lg:flex-row items-center justify-center min-h-screen sm:flex-col ">
+        <div className="flex flex-col lg:flex-row items-center lg:mr-52 justify-center min-h-screen sm:flex-col ">
             <div className="flex flex-col items-center justify-center w-1/2 h-1/2 p-8">
                 <img src="./src/assets/register-image.png" alt="Login Image" className="min-w-60 lg:w-4/5 " />
             </div>
@@ -116,7 +137,14 @@ const Register = () => {
                         </button>
                     </div>
                 </form>
-                {open && <VerificationModal open={open} onClose={() => setOpen(false)} useremail={(document.querySelector('input[type="email"]') as HTMLInputElement)?.value} />}
+                {open && verificationCode && (
+                    <VerificationModal
+                        open={open}
+                        onClose={() => setOpen(false)}
+                        useremail={(document.querySelector('input[type="email"]') as HTMLInputElement)?.value}
+                        verificationCode={Number(verificationCode)}
+                    />
+                )}
             </div>
         </div>
     );

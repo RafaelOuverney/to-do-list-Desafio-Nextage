@@ -4,9 +4,18 @@ interface ModalProps {
     open: boolean;
     onClose: () => void;
     useremail: string;
+    verificationCode: number;
 }
 
-export default function VerificationModal({ open, onClose, useremail }: ModalProps) {
+function handleVerification(code: string, verificationCode: number) {
+    if (parseInt(code) === verificationCode) {
+        alert("Código verificado com sucesso!");
+    } else {
+        alert("Código de verificação inválido.");
+    }
+}
+
+export default function VerificationModal({ open, onClose, useremail, verificationCode }: ModalProps) {
     const [code, setCode] = useState('');
 
     if (!open) return null;
@@ -33,10 +42,7 @@ export default function VerificationModal({ open, onClose, useremail }: ModalPro
                     className="flex flex-col gap-4"
                     onSubmit={e => {
                         e.preventDefault();
-                        // Aqui você pode adicionar a lógica para validar o código
-                        alert(`Código informado: ${code}`);
-                        setCode('');
-                        onClose();
+                        handleVerification(code, verificationCode);
                     }}
                 >
                     <input
@@ -50,6 +56,9 @@ export default function VerificationModal({ open, onClose, useremail }: ModalPro
                     <button
                         type="submit"
                         className="px-4 py-2 bg-neutral-800 text-white rounded hover:bg-neutral-600 transition duration-200"
+                        onClick={() => {
+                            handleVerification(code, verificationCode);
+                        }}
                     >
                         Verificar
                     </button>
