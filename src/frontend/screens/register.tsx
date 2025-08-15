@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Eye, EyeOff, ChevronLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import VerificationModal from "./verification-modal";
+import VerificationModal from "./modals/verification-modal";
 
 const Register = () => {
     const [open, setOpen] = useState(false);

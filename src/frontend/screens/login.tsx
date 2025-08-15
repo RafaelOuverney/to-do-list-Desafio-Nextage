@@ -1,5 +1,5 @@
 import { useState } from "react";
-import Modal from "./modal";
+import Modal from "./modals/modal-password";
 import { useNavigate } from "react-router-dom";
 import { GoogleLogin } from "@react-oauth/google";
 
@@ -47,6 +47,7 @@ const Login = () => {
                         <button
                             type="submit"
                             className={buttonDecoration}
+                            onClick={() => navigate("/dashboard")}
                         >
                             Login
                         </button>
