@@ -139,7 +139,9 @@ const Dashboard = () => {
             <header className="bg-indigo-800 h-20 flex items-center justify-between space lg:gap-5 gap-1" >
                 <h1 className="text-white p-10 font-black font font-(family-name: )">Dashboard</h1>
                 <div className="flex justify-between lg:gap-10 gap-5 p-5">
-                    <button aria-label="Adicionar Tarefa" className="w-full px-4 py-2 bg-[#100872] text-white rounded-xl hover:bg-[#4c4ef4] transition duration-200 flex items-center lg:gap-2 gap-1">
+                    <button aria-label="Adicionar Tarefa" className="w-full px-4 py-2 bg-[#100872] text-white rounded-xl hover:bg-[#4c4ef4] transition duration-200 flex items-center lg:gap-2 gap-1"
+                        
+                    >
                         <Plus className="w-8 h-8" />
                         <span className="hidden sm:inline">Adicionar Tarefa</span>
                     </button>
@@ -222,7 +224,6 @@ const Dashboard = () => {
                             backdrop?.addEventListener('click', removeOverlay);
                             closeBtn?.addEventListener('click', removeOverlay);
                             logoutBtn?.addEventListener('click', () => {
-                                // adicionar lógica de logout aqui
                                 removeOverlay();
                             });
                             document.addEventListener('keydown', onKeyDown);
@@ -261,7 +262,6 @@ const Dashboard = () => {
                                         handleDelete={handleDelete}
                                     />
                                 ))}
-                                {/* Botão de adicionar coluna */}
                                 <div className="flex flex-col justify-center items-center min-w-[85vw] sm:min-w-[260px] sm:w-80 w-full">
                                     <button
                                         onClick={openModal}
