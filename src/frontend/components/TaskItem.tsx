@@ -30,14 +30,14 @@ export function TaskItem({ item, idx, colId, handleDone, handleDelete }: TaskIte
                         <button
                             title={item.done ? "Desmarcar como concluída" : "Concluir"}
                             onClick={() => handleDone(colId, item.id)}
-                            className="p-1 rounded hover:bg-indigo-200 transition"
+                            className="p-1 rounded hover:bg-indigo-200 transition cursor-pointer"
                         >
                             <CheckCircle className={`w-5 h-5 ${item.done ? "text-green-600" : "text-gray-400"}`} />
                         </button>
                         <button
                             title="Excluir"
                             onClick={() => handleDelete(colId, item.id)}
-                            className="p-1 rounded hover:bg-red-200 transition"
+                            className="p-1 rounded hover:bg-red-200 transition cursor-pointer"
                         >
                             <Trash2Icon className="w-5 h-5 text-red-500" />
                         </button>

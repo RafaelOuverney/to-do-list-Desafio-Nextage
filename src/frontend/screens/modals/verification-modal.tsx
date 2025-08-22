@@ -30,7 +30,7 @@ export default function VerificationModal({ open, onClose, useremail, verificati
             >
                 <button
                     onClick={onClose}
-                    className="bg-white absolute top-1 right-5 text-neutral-400 hover:text-red-500 transition duration-200 text-2xl font-bold rounded-full p-1"
+                    className="bg-white absolute top-1 right-5 text-neutral-400 hover:text-red-500 transition duration-200 text-2xl font-bold rounded-full p-1 cursor-pointer"
                 >
                     &times;
                 </button>
@@ -55,7 +55,7 @@ export default function VerificationModal({ open, onClose, useremail, verificati
                     />
                     <button
                         type="submit"
-                        className="px-4 py-2 bg-neutral-800 text-white rounded hover:bg-neutral-600 transition duration-200"
+                        className="px-4 py-2 bg-neutral-800 text-white rounded hover:bg-neutral-600 transition duration-200 cursor-pointer"
                         onClick={() => {
                             handleVerification(code, verificationCode);
                         }}

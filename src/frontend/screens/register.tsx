@@ -61,7 +61,7 @@ const Register = () => {
             </div>
             <div className="relative flex flex-col items-center justify-center w-4/5 h-4/5 lg:w-1/2 lg:h-1/2 p-8 bg-neutral-200 rounded-lg shadow-lg">
                 <button
-                    className="absolute top-4 left-4 text-neutral-500 hover:text-neutral-700 flex items-center"
+                    className="absolute top-4 left-4 text-neutral-500 hover:text-neutral-700 flex items-center cursor-pointer"
                     onClick={() => navigate(-1)}
                 >
                     <ChevronLeft className="w-5 h-5" />
@@ -75,21 +75,6 @@ const Register = () => {
                         placeholder="Nome"
                         required
                     />
-                    <div className="relative w-full">
-                        <input
-                            type="date"
-                            className={inputDecoration}
-                            placeholder="Data de Nascimento"
-                            required
-                        />
-                        <input
-                            type="text"
-                            className={inputDecoration + " absolute top-0 left-0 opacity-0 pointer-events-none"}
-                            placeholder="Data de Nascimento"
-                            onFocus={(e) => e.target.type = "date"}
-                            onBlur={(e) => e.target.type = "text"}
-                        />
-                    </div>
                     <input
                         type="email"
                         className={inputDecoration}
@@ -105,7 +90,7 @@ const Register = () => {
                         />
                         <button
                             type="button"
-                            className="absolute right-2 top-1/2 -translate-y-1/2 text-neutral-500 hover:text-neutral-700"
+                            className="absolute right-2 top-1/2 -translate-y-1/2 text-neutral-500 hover:text-neutral-700 cursor-pointer"
                             onClick={() => setShowPassword(v => !v)}
                             tabIndex={-1}
                         >
@@ -121,7 +106,7 @@ const Register = () => {
                         />
                         <button
                             type="button"
-                            className="absolute right-2 top-1/2 -translate-y-1/2 text-neutral-500 hover:text-neutral-700"
+                            className="absolute right-2 top-1/2 -translate-y-1/2 text-neutral-500 hover:text-neutral-700 cursor-pointer"
                             onClick={() => setShowConfirmPassword(v => !v)}
                             tabIndex={-1}
                         >
@@ -131,7 +116,7 @@ const Register = () => {
                     <div className="flex flex-col lg:flex-row w-full h-full items-center justify-around lg:gap-10 gap-2">
                         <button
                             type="submit"
-                            className="w-full px-4 py-2 bg-[#100872] text-white rounded hover:bg-[#4c4ef4] transition duration-200"
+                            className="w-full px-4 py-2 bg-[#100872] text-white rounded hover:bg-[#4c4ef4] transition duration-200 cursor-pointer"
                         >
                             Enviar
                         </button>

@@ -139,13 +139,13 @@ const Dashboard = () => {
             <header className="bg-indigo-800 h-20 flex items-center justify-between space lg:gap-5 gap-1" >
                 <h1 className="text-white p-10 font-black font font-(family-name: )">Dashboard</h1>
                 <div className="flex justify-between lg:gap-10 gap-5 p-5">
-                    <button aria-label="Adicionar Tarefa" className="w-full px-4 py-2 bg-[#100872] text-white rounded-xl hover:bg-[#4c4ef4] transition duration-200 flex items-center lg:gap-2 gap-1"
+                    <button aria-label="Adicionar Tarefa" className="w-full px-4 py-2 bg-[#100872] text-white rounded-xl hover:bg-[#4c4ef4] transition duration-200 flex items-center lg:gap-2 gap-1 cursor-pointer"
                         
                     >
                         <Plus className="w-8 h-8" />
                         <span className="hidden sm:inline">Adicionar Tarefa</span>
                     </button>
-                    <button className="w-full px-4 py-2 bg-[#100872] text-white rounded-xl hover:bg-[#4c4ef4] transition duration-200 flex items-center gap-2">
+                    <button className="w-full px-4 py-2 bg-[#100872] text-white rounded-xl hover:bg-[#4c4ef4] transition duration-200 flex items-center gap-2 cursor-pointer">
                         <BookCheck className="w-8 h-8" />
                         <span className="hidden sm:inline">
                             Ver tarefas finalizadas
@@ -169,7 +169,7 @@ const Dashboard = () => {
                             container.innerHTML = `
                             <div id="${id}-backdrop" style="position:absolute;inset:0;background:rgba(0,0,0,0.45);"></div>
                             <aside id="${id}-panel" role="dialog" aria-label="Perfil" style="position:absolute;right:0;top:0;bottom:0;width:320px;max-width:85vw;background:#0f172a;color:#fff;padding:20px;box-shadow:-2px 0 12px rgba(0,0,0,0.6);transform:translateX(100%);transition:transform .28s ease;">
-                                <button id="${id}-close" aria-label="Fechar painel" style="background:transparent;border:none;color:#fff;font-size:18px;margin-left:auto;display:block">✕</button>
+                                <button id="${id}-close" aria-label="Fechar painel" style="background:transparent;border:none;color:#fff;font-size:18px;margin-left:auto;display:block;cursor:pointer">✕</button>
                                 <div style="display:flex;gap:12px;align-items:center;margin-top:8px">
                                     <img src="https://i.pravatar.cc/100" alt="Foto do usuário" style="width:64px;height:64px;border-radius:8px;object-fit:cover" />
                                     <div>
@@ -178,9 +178,9 @@ const Dashboard = () => {
                                     </div>
                                 </div>
                                 <nav style="margin-top:18px;display:flex;flex-direction:column;gap:8px">
-                                    <button style="text-align:left;padding:10px;border-radius:8px;background:#111827;color:#fff;border:none" hover="background:#4c4ef4">Editar Perfil</button>
-                                    <button style="text-align:left;padding:10px;border-radius:8px;background:#111827;color:#fff;border:none" hover="background:#4c4ef4">Configurações</button>
-                                    <button id="${id}-logout" style="text-align:left;padding:10px;border-radius:8px;background:#7c3aed;color:#fff;border:none" hover="background:#a855f7">Sair</button>
+                                    <button style="text-align:left;padding:10px;border-radius:8px;background:#111827;color:#fff;border:none;cursor:pointer" hover="background:#4c4ef4">Editar Perfil</button>
+                                    <button style="text-align:left;padding:10px;border-radius:8px;background:#111827;color:#fff;border:none;cursor:pointer" hover="background:#4c4ef4">Configurações</button>
+                                    <button id="${id}-logout" style="text-align:left;padding:10px;border-radius:8px;background:#7c3aed;color:#fff;border:none;cursor:pointer" hover="background:#a855f7">Sair</button>
                                 </nav>
                             </aside>
                         `;
@@ -263,9 +263,9 @@ const Dashboard = () => {
                                     />
                                 ))}
                                 <div className="flex flex-col justify-center items-center min-w-[85vw] sm:min-w-[260px] sm:w-80 w-full">
-                                    <button
-                                        onClick={openModal}
-                                        className="bg-indigo-200 hover:bg-indigo-400 text-indigo-900 font-bold py-3 px-4 rounded-lg flex flex-col items-center justify-center transition"
+                    <button
+                        onClick={openModal}
+                        className="bg-indigo-200 hover:bg-indigo-400 text-indigo-900 font-bold py-3 px-4 rounded-lg flex flex-col items-center justify-center transition cursor-pointer"
                                         aria-label="Adicionar nova coluna"
                                     >
                                         <Columns className="w-8 h-8 mb-1" />

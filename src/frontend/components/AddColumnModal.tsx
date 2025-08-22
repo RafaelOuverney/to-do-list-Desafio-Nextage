@@ -38,13 +38,13 @@ export function AddColumnModal({ show, value, onChange, onClose, onSubmit }: Add
                     <button
                         type="button"
                         onClick={onClose}
-                        className="px-4 py-2 rounded bg-gray-200 hover:bg-gray-300 text-gray-700"
+                        className="px-4 py-2 rounded bg-gray-200 hover:bg-gray-300 text-gray-700 cursor-pointer"
                     >
                         Cancelar
                     </button>
                     <button
                         type="submit"
-                        className="px-4 py-2 rounded bg-indigo-600 hover:bg-indigo-700 text-white font-bold"
+                        className="px-4 py-2 rounded bg-indigo-600 hover:bg-indigo-700 text-white font-bold cursor-pointer"
                     >
                         Criar
                     </button>

@@ -60,7 +60,7 @@ export function Column({
                             <button
                                 title="Excluir coluna"
                                 onClick={() => handleDeleteColumn(colId)}
-                                className="p-1 rounded hover:bg-red-200 transition"
+                                className="p-1 rounded hover:bg-red-200 transition cursor-pointer"
                             >
                                 <CircleX className="w-5 h-5 text-red-500" />
                             </button>

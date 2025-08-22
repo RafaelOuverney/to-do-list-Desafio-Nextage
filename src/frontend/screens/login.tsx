@@ -6,10 +6,10 @@ import { GoogleLogin } from "@react-oauth/google";
 const Login = () => {
     const [open, setOpen] = useState(false);
     const navigate = useNavigate();
-    const buttonDecoration = "w-full px-4 py-2 bg-[#100872] text-white rounded hover:bg-[#4c4ef4] transition duration-200"
+    const buttonDecoration = "w-full px-4 py-2 bg-[#100872] text-white rounded hover:bg-[#4c4ef4] transition duration-200 cursor-pointer"
 
     return (
-        <div className="flex flex-col lg:flex-row lg:mr-52 items-center justify-center min-h-screen sm:flex-col " >
+        <div className="flex flex-col lg:flex-row lg:mr-52 items-center justify-center min-h-screen sm:flex-col" >
             <div className="flex flex-col items-center justify-center w-1/2 h-1/2 p-8">
                 <img src="./src/assets/login-image.png" alt="Login Image" className="min-w-60 lg:w-4/5 " />
             </div>
@@ -18,7 +18,7 @@ const Login = () => {
                 <GoogleLogin shape="circle" onSuccess={(credentialResponse) => {
                     
                     console.log("Google Login Success:", credentialResponse);
-                    // Handle successful login (e.g., navigate, save user info, etc.)
+
                 }} onError={() => {
                     console.error("Google Login Error");
                 }} />
