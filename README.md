@@ -2,59 +2,105 @@
 
 ## Descrição do Projeto
 
-Aplicação web para gerenciamento de tarefas, desenvolvida como parte de um desafio de estágio de estágio proposto pelo IFPR em parceria com a Nextage. O objetivo é permitir ao usuário criar, visualizar, editar, marcar como concluídas e excluir tarefas, além de oferecer autenticação e recuperação de senha.
+Aplicação web para gerenciamento de tarefas, desenvolvida como parte de um desafio de estágio proposto pelo IFPR em parceria com a Nextage. O objetivo é permitir ao usuário criar, visualizar, editar, marcar como concluídas e excluir tarefas, além de oferecer autenticação e recuperação de senha.
 
 ## Funcionalidades
 
 - [ ] Criação de Tarefas
 - [ ] Visualização de Tarefas
-- [ ] Edição de Tarefas
-- [ ] Marcação de Conclusão
-- [ ] Exclusão de Tarefas
-- [x] Autenticação de Usuário (Tela de Login)
-- [x] Recuperação de Senha (Modal)
-- [ ] Filtros e Ordenação
+# To-Do List - Desafio de Estágio
+
+## Descrição do Projeto
+
+Aplicação fullstack para gerenciamento de tarefas (to-do list) desenvolvida como parte de um desafio de estágio. Permite criar, visualizar, editar, marcar como concluída e excluir tarefas. Possui autenticação de usuário, edição de perfil (nome, senha e foto de perfil) e separação entre frontend (Vite + React) e backend (NestJS + Prisma).
+
+## Funcionalidades
+
+- [x] Criação de Tarefas
+- [x] Visualização de Tarefas (quadro kanban)
+- [x] Edição de Tarefas
+- [x] Marcação de Conclusão
+- [x] Exclusão de Tarefas
+- [x] Autenticação de Usuário (login / registro)
+- [x] Edição de Perfil (nome, senha, foto de perfil)
+- [x] Filtros e Ordenação (Opcional)
 - [ ] Outras funcionalidades (descrever)
+
+> Observação: no repositório as imagens de perfil são suportadas como `Bytes` no banco (campo `avatar` no Prisma). Para produção é recomendado usar um storage de objetos (S3 / Supabase Storage) e salvar apenas a URL.
 
 ## Tecnologias Utilizadas
 
-- **Frontend:** React, TypeScript, TailwindCSS, Vite
-- **Backend:** (a implementar)
-- **Banco de Dados:** (a implementar)
-- **Outras:** SVG Icons, CSS Modules
+- Frontend: React, Vite, TypeScript, TailwindCSS, PrimeReact
+- Backend: NestJS, TypeScript, Express adapter
+- Banco de Dados: Prisma ORM (schema em `server/prisma/schema.prisma`) — em desenvolvimento usa SQLite; em produção recomendo Postgres (Supabase/Neon/Planetscale)
+- Outras: hello-pangea/dnd (drag & drop), lucide-react (ícones)
 
-## Como Configurar e Executar o Projeto
+## Como Configurar e Executar o Projeto (local)
 
-### Pré-requisitos
+Instruções para Windows PowerShell. Presume Node.js (>=16) e npm.
 
-- Node.js >= 18.x
-- npm >= 9.x
+1. Clone o repositório
 
-### Passos
-
-```bash
-# 1. Clone o repositório
-git clone https://github.com/seu-usuario/to-do-list.git
+```powershell
+git clone https://github.com/<seu-usuario>/<seu-repo>.git
 cd to-do-list
+```
 
-# 2. Instale as dependências do frontend
-cd src
+2. Instale dependências
+
+```powershell
+# Instalar no root (opcional)
 npm install
 
-# 3. Inicie o frontend
+# Backend
+cd server
+npm install
+npx prisma generate
+
+# Frontend
+cd ..\src\frontend
+npm install
+```
+
+3. Configurar o banco de dados
+
+- Em desenvolvimento o projeto inclui um arquivo SQLite (`server/prisma/todo.db`). Para usar Postgres, defina a variável de ambiente `DATABASE_URL` e rode as migrações:
+
+```powershell
+cd server
+npx prisma migrate dev --name init
+```
+
+4. Iniciar backend e frontend (em terminais separados)
+
+```powershell
+# Terminal 1 - backend
+cd server
+npm run start:dev
+
+# Terminal 2 - frontend
+cd src\frontend
 npm run dev
 ```
 
-> O backend e o banco de dados ainda não foram implementados. O frontend pode ser testado normalmente.
+Observações:
+- Ajuste `VITE_API_URL` no frontend para apontar para a URL da API (ex.: `http://localhost:3000`).
+- Se ocorrer `413 Request Entity Too Large` ao enviar imagens base64, aumente o limite no backend (`express.json({ limit: '8mb' })`) ou faça upload para um storage externo.
 
 ## Decisões de Design e Arquitetura
 
-- **Frontend em React + Vite:** Escolhido pela velocidade de desenvolvimento e facilidade de configuração.
-- **TailwindCSS:** Utilizado para estilização rápida e responsiva.
-- **Componentização:** Telas e modais são componentes independentes para facilitar manutenção e reuso.
-- **Persistência:** Ainda não implementada; será feita no backend futuramente.
-- **Desafios:** Implementação do modal de recuperação de senha e responsividade das telas.
+- Separação clara entre frontend (SPA) e backend (API RESTful) para facilitar deploy e escalabilidade.
+- Prisma como ORM para modelagem e migrações; migrar para Postgres em produção.
+- Upload de avatar implementado via base64 → convertido para bytes e salvo no banco (campo `avatar`). Em produção, recomendo storage dedicado.
+- Autenticação via JWT; proteger endpoints com guards e checar ownership para operações sensíveis.
 
-## Considerações Finais
+## Testes e Lint
 
-Este projeto está em desenvolvimento e novas funcionalidades serão adicionadas em breve. Sinta-se à vontade para contribuir ou sugerir melhorias.
+```powershell
+# Verificar tipos TypeScript
+npx tsc --noEmit
+
+# Rodar linters/tests (se configurados)
+npm run lint
+npm test
+```
