@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
+import { Toast } from 'primereact/toast';
 
 interface ModalProps {
     open: boolean;
@@ -7,6 +8,7 @@ interface ModalProps {
 
 export default function Modal({ open, onClose }: ModalProps) {
     const [email, setEmail] = useState('');
+    const toast = useRef<any | null>(null);
 
     if (!open) return null;
     return (
@@ -32,7 +34,7 @@ export default function Modal({ open, onClose }: ModalProps) {
                     onSubmit={e => {
                         e.preventDefault();
                         // Aqui você pode adicionar a lógica para enviar o e-mail
-                        alert(`E-mail de redefinição enviado para: ${email}`);
+                        toast.current?.show({ severity: 'success', summary: 'Enviado', detail: `E-mail de redefinição enviado para: ${email}`, life: 4000 });
                         setEmail('');
                         onClose();
                     }}
@@ -53,6 +55,7 @@ export default function Modal({ open, onClose }: ModalProps) {
                     </button>
                 </form>
             </div>
+            <Toast ref={toast} />
         </div>
     );
 }

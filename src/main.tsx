@@ -1,6 +1,9 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
+// PrimeReact styles
+import 'primereact/resources/themes/saga-blue/theme.css';
+import 'primereact/resources/primereact.min.css';
 import { BrowserRouter } from 'react-router-dom'
 import BackendRoutes from './backend/routes.tsx'
 import { GoogleOAuthProvider } from '@react-oauth/google'

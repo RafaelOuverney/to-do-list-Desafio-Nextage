@@ -1,34 +1,71 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { Eye, EyeOff, ChevronLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import VerificationModal from "./modals/verification-modal";
+import { Toast } from 'primereact/toast';
+import type { Toast as ToastType } from 'primereact/toast';
+
+type TempUser = {
+    name: string;
+    email: string;
+    password: string;
+};
 
 const Register = () => {
     const [open, setOpen] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     const [verificationCode, setVerificationCode] = useState<string | null>(null);
+    const [tempUser, setTempUser] = useState<TempUser | null>(null);
     const inputDecoration = "focus:outline-none mb-4 p-2 border-b-2 border-neutral-500 text-neutral-700 w-full";
     const navigate = useNavigate();
+    const toast = useRef<ToastType | null>(null);
+
+    const createUser = async (user: TempUser) => {
+        try {
+            const res = await fetch("http://localhost:3000/users", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    name: user.name,
+                    email: user.email,
+                    password: user.password,
+                }),
+            });
+            if (!res.ok) {
+                const text = await res.text();
+                throw new Error(text || "Erro ao criar usuário");
+            }
+            const created = await res.json();
+            console.log("Usuário criado:", created);
+            navigate("/");
+        } catch (err: any) {
+            console.error("Erro criando usuário:", err?.message ?? err);
+                toast.current?.show({ severity: 'error', summary: 'Erro', detail: String(err?.message ?? 'unknown'), life: 5000 });
+        }
+    };
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         const form = e.currentTarget;
         const name = (form.querySelector('input[placeholder="Nome"]') as HTMLInputElement)?.value.trim();
-        const dob = (form.querySelector('input[type="date"]') as HTMLInputElement)?.value.trim();
         const email = (form.querySelector('input[type="email"]') as HTMLInputElement)?.value.trim();
         const password = (form.querySelector('input[placeholder="Senha"]') as HTMLInputElement)?.value.trim();
         const confirmPassword = (form.querySelector('input[placeholder="Confirme a Senha"]') as HTMLInputElement)?.value.trim();
 
-        if (!name || !dob || !email || !password || !confirmPassword) {
-            alert("Por favor, preencha todos os campos obrigatórios.");
+        if (!name || !email || !password || !confirmPassword) {
+            toast.current?.show({ severity: 'warn', summary: 'Campos', detail: 'Por favor, preencha todos os campos obrigatórios.', life: 4000 });
             return;
         }
 
         if (password !== confirmPassword) {
-            alert("As senhas não coincidem.");
+            toast.current?.show({ severity: 'warn', summary: 'Senha', detail: 'As senhas não coincidem.', life: 4000 });
             return;
         }
+
+        // guarda os dados temporariamente para criar o usuário após verificação
+        const userData: TempUser = { name, email, password };
+        setTempUser(userData);
 
         try {
             const response = await fetch("http://localhost:3000/email/send", {
@@ -45,12 +82,13 @@ const Register = () => {
                 throw new Error("Erro ao enviar email.");
             }
             const data = await response.json();
-            setVerificationCode(data.code); // Recebe o código do backend
+            setVerificationCode(data.code?.toString() ?? null);
             setOpen(true);
             console.log("Email enviado com sucesso:", data);
+            // criação do usuário ocorrerá quando o modal confirmar o código (onVerified)
         } catch (error) {
             console.error("Erro:", error);
-            alert("Falha ao enviar email. Tente novamente.");
+            toast.current?.show({ severity: 'error', summary: 'Email', detail: 'Falha ao enviar email. Tente novamente.', life: 4000 });
         }
     };
 
@@ -122,14 +160,18 @@ const Register = () => {
                         </button>
                     </div>
                 </form>
-                {open && verificationCode && (
+                {open && verificationCode && tempUser && (
                     <VerificationModal
                         open={open}
                         onClose={() => setOpen(false)}
-                        useremail={(document.querySelector('input[type="email"]') as HTMLInputElement)?.value}
+                        useremail={tempUser.email}
                         verificationCode={Number(verificationCode)}
+                        onVerified={async () => {
+                            await createUser(tempUser);
+                        }}
                     />
                 )}
+                <Toast ref={toast} />
             </div>
         </div>
     );
