@@ -17,11 +17,13 @@ const Register = () => {
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     const [verificationCode, setVerificationCode] = useState<string | null>(null);
     const [tempUser, setTempUser] = useState<TempUser | null>(null);
+    const [sending, setSending] = useState(false);
     const inputDecoration = "focus:outline-none mb-4 p-2 border-b-2 border-neutral-500 text-neutral-700 w-full";
     const navigate = useNavigate();
     const toast = useRef<ToastType | null>(null);
 
     const createUser = async (user: TempUser) => {
+        setSending(true);
         try {
             const res = await fetch("http://localhost:3000/users", {
                 method: "POST",
@@ -41,7 +43,9 @@ const Register = () => {
             navigate("/");
         } catch (err: any) {
             console.error("Erro criando usuário:", err?.message ?? err);
-                toast.current?.show({ severity: 'error', summary: 'Erro', detail: String(err?.message ?? 'unknown'), life: 5000 });
+            toast.current?.show({ severity: 'error', summary: 'Erro', detail: String(err?.message ?? 'unknown'), life: 5000 });
+        } finally {
+            setSending(false);
         }
     };
 
@@ -66,7 +70,7 @@ const Register = () => {
         // guarda os dados temporariamente para criar o usuário após verificação
         const userData: TempUser = { name, email, password };
         setTempUser(userData);
-
+        setSending(true);
         try {
             const response = await fetch("http://localhost:3000/email/send", {
                 method: "POST",
@@ -89,6 +93,8 @@ const Register = () => {
         } catch (error) {
             console.error("Erro:", error);
             toast.current?.show({ severity: 'error', summary: 'Email', detail: 'Falha ao enviar email. Tente novamente.', life: 4000 });
+        } finally {
+            setSending(false);
         }
     };
 
@@ -154,9 +160,17 @@ const Register = () => {
                     <div className="flex flex-col lg:flex-row w-full h-full items-center justify-around lg:gap-10 gap-2">
                         <button
                             type="submit"
-                            className="w-full px-4 py-2 bg-[#100872] text-white rounded hover:bg-[#4c4ef4] transition duration-200 cursor-pointer"
+                            className={("w-full px-4 py-2 bg-[#100872] text-white rounded hover:bg-[#4c4ef4] transition duration-200 cursor-pointer") + (sending ? ' opacity-80 cursor-not-allowed' : '')}
+                            disabled={sending}
                         >
-                            Enviar
+                            {sending ? (
+                                <span className="flex items-center justify-center">
+                                    <svg className="animate-spin h-4 w-4 mr-2 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path></svg>
+                                    Enviando...
+                                </span>
+                            ) : (
+                                'Enviar'
+                            )}
                         </button>
                     </div>
                 </form>

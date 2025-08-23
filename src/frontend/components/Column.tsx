@@ -3,25 +3,27 @@ import { CircleX } from "lucide-react";
 import { Draggable, Droppable } from "@hello-pangea/dnd";
 import { TaskItem } from "./TaskItem";
 
-type Item = { id: string; content: string; description?: string; done?: boolean };
+type Item = { id: string; title: string; content?: string | null; createdAt?: string | Date; done?: boolean };
 type ColumnType = { name: string; items: Item[] };
 
 interface ColumnProps {
     colId: string;
     col: ColumnType;
     idx: number;
-    handleDeleteColumn: (colId: string) => void;
+    onRequestDeleteColumn: (colId: string, colName?: string) => void;
     handleDone: (colId: string, itemId: string) => void;
     handleDelete: (colId: string, itemId: string) => void;
+    onEdit?: (item: any, colId: string) => void;
 }
 
 export function Column({
     colId,
     col,
     idx,
-    handleDeleteColumn,
+    onRequestDeleteColumn,
     handleDone,
     handleDelete
+    , onEdit
 }: ColumnProps) {
     return (
         <Draggable draggableId={colId} index={idx}>
@@ -59,7 +61,7 @@ export function Column({
                             </h2>
                             <button
                                 title="Excluir coluna"
-                                onClick={() => handleDeleteColumn(colId)}
+                                onClick={() => onRequestDeleteColumn(colId, col.name)}
                                 className="p-1 rounded hover:bg-red-200 transition cursor-pointer"
                             >
                                 <CircleX className="w-5 h-5 text-red-500" />
@@ -85,6 +87,7 @@ export function Column({
                                             colId={colId}
                                             handleDone={handleDone}
                                             handleDelete={handleDelete}
+                                            onEdit={onEdit}
                                         />
                                     ))}
 
