@@ -4,6 +4,7 @@ import Login from "../frontend/screens/login";
 import Register from "../frontend/screens/register";
 import Dashboard from "../frontend/screens/dashboard";
 import FinishedTasks from "../frontend/screens/finishedTasks";
+import Profile from "../frontend/screens/profile";
 
 function isAuthenticated() {
     const token = localStorage.getItem('token');
@@ -36,6 +37,7 @@ function BackendRoutes() {
             <Route path="/register" element={<PublicOnly><Register /></PublicOnly>} />
             <Route path="/dashboard" element={<PrivateRoute><Dashboard /></PrivateRoute>} />
             <Route path="/finished" element={<PrivateRoute><FinishedTasks /></PrivateRoute>} />
+            <Route path="/profile" element={<PrivateRoute><Profile /></PrivateRoute>} />
             <Route path="/404" element={<NotFound />} />
             <Route path="*" element={<NotFound />} />
         </Routes>

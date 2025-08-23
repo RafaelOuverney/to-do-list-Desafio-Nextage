@@ -362,6 +362,24 @@ const Dashboard = () => {
         })();
     }
 
+    // determine user avatar URL/data for header (prefer server-served avatar when user id present)
+    let headerUserAvatar = 'https://i.pravatar.cc/100';
+    try {
+        const rawUser = localStorage.getItem('currentUser') || localStorage.getItem('user');
+        const parsed = rawUser ? JSON.parse(rawUser) : null;
+        if (parsed) {
+            if (parsed.id) {
+                headerUserAvatar = `http://localhost:3000/users/${encodeURIComponent(String(parsed.id))}/avatar`;
+            } else if (parsed.avatar) {
+                headerUserAvatar = parsed.avatar;
+            } else if (parsed.avatarBase64) {
+                headerUserAvatar = parsed.avatarBase64;
+            }
+        }
+    } catch (e) {
+        // ignore parse errors and keep default avatar
+    }
+
     return (
         <>
             <ConfirmDialog />
@@ -383,7 +401,7 @@ const Dashboard = () => {
                         aria-label="Perfil"
                         title="Perfil"
                         type="button"
-                        className="lg:w-40 rounded-full overflow-hidden border-2 border-white/30 flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-white/50"
+                        className="lg:w-40 h-15 rounded-full overflow-hidden border-2 border-white/30 flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-white/50"
                         onClick={() => {
                             const id = 'right-overlay';
                             const existing = document.getElementById(id);
@@ -397,19 +415,30 @@ const Dashboard = () => {
                             const rawUser = localStorage.getItem('currentUser') || localStorage.getItem('user');
                             let userName = 'Usuário';
                             let userEmail = 'usuario@exemplo.com';
+                            let userAvatar = 'https://i.pravatar.cc/100';
                             try {
                                 const parsed = rawUser ? JSON.parse(rawUser) : null;
                                 if (parsed) {
                                     userName = parsed.name || userName;
                                     userEmail = parsed.email || userEmail;
+                                    if (parsed.id) {
+                                        try {
+                                            userAvatar = `http://localhost:3000/users/${encodeURIComponent(String(parsed.id))}/avatar`;
+                                        } catch(e) { /* ignore */ }
+                                    } else if (parsed.avatar) {
+                                        // if avatar is a data URL or base64 string, use it directly
+                                        userAvatar = parsed.avatar;
+                                    } else if (parsed.avatarBase64) {
+                                        userAvatar = parsed.avatarBase64;
+                                    }
                                 }
-                            } catch(e) { /* ignore parse errors */ }
+                            } catch(e) {}
                             container.innerHTML = `
                             <div id="${id}-backdrop" style="position:absolute;inset:0;background:rgba(0,0,0,0.45);"></div>
                             <aside id="${id}-panel" role="dialog" aria-label="Perfil" style="position:absolute;right:0;top:0;bottom:0;width:320px;max-width:85vw;background:#0f172a;color:#fff;padding:20px;box-shadow:-2px 0 12px rgba(0,0,0,0.6);transform:translateX(100%);transition:transform .28s ease;">
                                 <button id="${id}-close" aria-label="Fechar painel" style="background:transparent;border:none;color:#fff;font-size:18px;margin-left:auto;display:block;cursor:pointer">✕</button>
                                 <div style="display:flex;gap:12px;align-items:center;margin-top:8px">
-                                    <img src="https://i.pravatar.cc/100" alt="Foto do usuário" style="width:64px;height:64px;border-radius:8px;object-fit:cover" />
+                                    <img src="${userAvatar}" alt="Foto do usuário" style="width:64px;height:64px;border-radius:8px;object-fit:cover" />
                                     <div>
                                         <strong>${userName}</strong>
                                         <div style="opacity:0.8;font-size:13px">${userEmail}</div>
@@ -427,6 +456,7 @@ const Dashboard = () => {
                             const panel = document.getElementById(`${id}-panel`);
                             const backdrop = document.getElementById(`${id}-backdrop`);
                             const closeBtn = document.getElementById(`${id}-close`);
+                            const editBtn = document.getElementById(`${id}-edit`);
                             const logoutBtn = document.getElementById(`${id}-logout`);
 
                             function removeOverlay() {
@@ -468,14 +498,18 @@ const Dashboard = () => {
                                 removeOverlay();
                                 try { navigate('/'); } catch(e) { window.location.href = '/'; }
                             });
+                            editBtn?.addEventListener('click', () => {
+                                removeOverlay();
+                                try { navigate('/profile'); } catch(e) { window.location.href = '/profile'; }
+                            });
                             document.addEventListener('keydown', onKeyDown);
                         }}
                     >
-                        <img
-                            src="https://i.pravatar.cc/100"
-                            alt="Foto do usuário"
-                            className="w-full h-full object-cover rounded-full"
-                        />
+                            <img
+                                src={headerUserAvatar}
+                                alt="Foto do usuário"
+                                className="w-full h-full object-cover rounded-full"
+                            />
                     </button>
 
                 </div>
